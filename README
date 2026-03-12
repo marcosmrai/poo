@@ -1,0 +1,12 @@
+Resolução das perguntas:
+Aula 2:
+
+Na classe Carrinho:
+if (p == null) throw new IllegalArgumentException("Produto nulo."); // Fail-Fast
+
+
+Na classe Cartao (não mostrada aqui, mas mencionada no código):
+if (valor > this.limite) {
+    System.err.println("Limite excedido para transação de R$ " + valor);
+    return false;
+}
