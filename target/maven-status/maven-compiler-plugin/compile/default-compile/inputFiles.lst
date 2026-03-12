@@ -1,2 +1,8 @@
 /workspaces/poo/src/main/java/br/com/loja/model/Produto.java
+/workspaces/poo/src/main/java/br/com/loja/service/Cartao.java
+/workspaces/poo/src/main/java/br/com/loja/model/Carrinho.java
+/workspaces/poo/src/main/java/br/com/loja/model/Cliente.java
 /workspaces/poo/src/main/java/br/com/loja/Principal.java
+/workspaces/poo/src/main/java/br/com/loja/model/Pedido.java
+/workspaces/poo/src/main/java/br/com/loja/model/Pagavel.java
+/workspaces/poo/src/main/java/br/com/loja/service/Boleto.java

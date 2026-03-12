@@ -7,9 +7,11 @@ import java.util.Collections;
 public class Carrinho {
     private double total;
     private ArrayList<Produto> itens;
+    private Cliente cliente;
 
-    public Carrinho() {
+    public Carrinho(Cliente cliente) {
         // A "forma" é List, mas o "motor" na Heap é ArrayList
+        this.cliente = cliente;
         this.itens = new ArrayList<>();
         this.total = 0.0;
     }
@@ -40,4 +42,6 @@ public class Carrinho {
     }
 
     public double getTotal() { return this.total; }
+
+    public Cliente getCliente() { return this.cliente; }
 }
