@@ -1,0 +1,20 @@
+{
+  "name": "Nexus Lab Environment",
+  "image": "mcr.microsoft.com/devcontainers/java:21-bullseye",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "updateRemoteUserUID": true,
+  "remoteUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "extensions": ["vscjava.vscode-java-pack",
+                     "vscjava.vscode-maven"]
+    }
+  },
+  "features": {
+        "ghcr.io/devcontainers/features/java:1": {
+            "version": "21",
+            "installMaven": "true",
+            "installGradle": "true"
+        }
+    }
+}
