@@ -241,4 +241,8 @@ class Aula3 {
 
         // Vamos acabar de implementar até conseguirmos pagar?
     }
+
+    static void boleto() {
+        // Implementação de um método de pagamento alternativo (Boleto)
+    }
 }
