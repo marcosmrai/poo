@@ -18,27 +18,31 @@ public class Produto {
             throw new IllegalArgumentException("Nome obrigatório."); // Fail-Fast
         }
         this.nome = nome; // 'this' resolve conflito de escopo
-        this.setPreco(preco); // Reuso da lógica de validação
+        this.alteraPreco(preco); // Reuso da lógica de validação
     }
 
     // COMPORTAMENTO: Interface Pública (O Contrato)
-    public void setPreco(double preco) {
+    private void alteraPreco(double preco) {
         if (preco <= 0) {
             throw new IllegalArgumentException("Preço deve ser positivo."); // Defesa de Invariante
         }
         this.preco = preco;
     }
 
-    public double getPrecoFinal() {
+    public double precoFinal() {
         return this.preco * (1 + taxaImposto); // Interação entre estado local e estático
     }
 
     // Método Estático: Altera a regra para todos os objetos simultaneamente
-    public static void setTaxaImposto(double novaTaxa) {
+    public static void alteraTaxaImposto(double novaTaxa) {
         taxaImposto = novaTaxa;
     }
 
     public String getStatus() {
-        return String.format("Produto: %s | Preço com Imposto: %.2f", nome, getPrecoFinal());
+        return String.format("Produto: %s | Preço com Imposto: %.2f", nome, precoFinal());
+    }
+
+    public String toString() {
+        return String.format("Produto{nome='%s', preco=%.2f}", nome, preco);
     }
 }
