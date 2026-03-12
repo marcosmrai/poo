@@ -18,11 +18,11 @@ public class Produto {
             throw new IllegalArgumentException("Nome obrigatório."); // Fail-Fast
         }
         this.nome = nome; // 'this' resolve conflito de escopo
-        this.alteraPreco(preco); // Reuso da lógica de validação
+        this.atualizaPreco(preco); // Reuso da lógica de validação
     }
 
     // COMPORTAMENTO: Interface Pública (O Contrato)
-    private void alteraPreco(double preco) {
+    public void atualizaPreco(double preco) {
         if (preco <= 0) {
             throw new IllegalArgumentException("Preço deve ser positivo."); // Defesa de Invariante
         }
@@ -34,15 +34,12 @@ public class Produto {
     }
 
     // Método Estático: Altera a regra para todos os objetos simultaneamente
-    public static void alteraTaxaImposto(double novaTaxa) {
+    public static void atualizaTaxaImposto(double novaTaxa) {
         taxaImposto = novaTaxa;
     }
 
-    public String getStatus() {
-        return String.format("Produto: %s | Preço com Imposto: %.2f", nome, precoFinal());
-    }
-
     public String toString() {
-        return String.format("Produto{nome='%s', preco=%.2f}", nome, preco);
+        return String.format("Produto: %s, Preço: %.2f, Preço Final: %.2f", 
+            nome, preco, precoFinal());
     }
 }
