@@ -27,7 +27,12 @@ public class Cliente {
         return this.cartao;
     }
 
-    public String getNome() {
+    public String consultaNome() {
         return this.nome;
+    }
+
+    public String toString() {
+        return String.format("Cliente: %s, Cartão: %s", 
+            nome, (cartao != null ? cartao.getNumero() : "Nenhum"));
     }
 }

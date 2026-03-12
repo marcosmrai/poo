@@ -6,8 +6,7 @@ import java.util.Collections;
 
 public class Carrinho {
     private double total;
-    // PROGRAMAR PARA INTERFACE: Usamos List (Abstração)
-    private List<Produto> itens;
+    private ArrayList<Produto> itens;
 
     public Carrinho() {
         // A "forma" é List, mas o "motor" na Heap é ArrayList
@@ -16,9 +15,20 @@ public class Carrinho {
     }
 
     public void adicionarItem(Produto p) {
-        if (p == null) throw new IllegalArgumentException("Produto nulo."); // Fail-Fast
         this.itens.add(p);
         this.total += p.precoFinal(); // Mantendo a Invariante
+    }
+
+    public void removerItem(Produto p) {
+        this.itens.remove(p);
+    }
+
+    public boolean confereTotal(ArrayList<Produto> itens) {
+        double soma = 0.0;
+        for (Produto p : itens) {
+            soma += p.precoFinal();
+        }
+        return soma == this.total; // Verifica a Invariante
     }
 
     /**
