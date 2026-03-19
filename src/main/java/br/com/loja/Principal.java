@@ -2,8 +2,8 @@ package br.com.loja;
 
 import br.com.loja.model.Cliente;
 import br.com.loja.model.Produto;
-import br.com.loja.service.Cartao;
 import br.com.loja.model.Carrinho;
+import br.com.loja.service.Cartao;
 import java.util.ArrayList;
 
 public class Principal {
@@ -120,7 +120,8 @@ class Aula2 {
         }
 
         // ERRO 2: Carrinho aceitando Produto Nulo
-        Carrinho cart = new Carrinho();
+        Cliente maria = new Cliente("Maria");
+        Carrinho cart = new Carrinho(maria);
         try {
             System.out.println("\nTentando adicionar produto nulo ao carrinho...");
             cart.adicionarItem(null);
@@ -141,7 +142,8 @@ class Aula2 {
     static void invarianteNoCarrinho() {
         System.out.println("\n=== DESAFIO DO CARRINHO (AULA 2) ===");
         
-        Carrinho meuCarrinho = new Carrinho();
+        Cliente maria = new Cliente("Maria");
+        Carrinho meuCarrinho = new Carrinho(maria);
         Produto p1 = new Produto("Teclado Mecânico", 300.0);
         Produto p2 = new Produto("Mouse Gamer", 150.0);
 
@@ -175,5 +177,72 @@ class Aula2 {
             System.err.println("BLOQUEADO: A Cópia Defensiva impediu a sabotagem externa!");
             System.err.println("O encapsulamento protegeu o estado interno.");
         }
+    }
+}
+
+class Aula3 {
+    // Aula 3: Lei de Demeter - Não fale com estranhos
+    static void demeterEx1() {
+        System.out.println("\n=== LEI DE DEMETER (AULA 3) ===");
+
+        // Configuração inicial
+        Cartao cartaoDoJoao = new Cartao(500.0);
+        Cliente joao = new Cliente("João");
+        joao.cadastrarCartao(cartaoDoJoao);
+        Carrinho carrinho = new Carrinho(joao);
+
+        // --- A VIOLAÇÃO (Train Wreck) ---
+        // O Principal (eu) conheço o Carrinho (amigo). 
+        // Mas estou navegando até o Cartão (estranho) através do Cliente.
+        System.out.println("Executando pagamento com violação de Demeter...");
+        
+        // Esta linha sabe demais sobre a estrutura interna do Carrinho e do Cliente [cite: 195, 207]
+        carrinho.getCliente().getCartao().processar(100.0);
+
+        /*
+         * EXPLICAÇÃO PARA OS ALUNOS:
+         * Por que isso é ruim? Se o Cliente passar a ter vários cartões (uma lista) 
+         * ou se o nome do método 'getCartao' mudar, esta linha quebra. 
+         * O Principal não deveria saber que o Cliente tem um Cartão.
+         */
+
+        // --- A SOLUÇÃO (Diga, não pergunte) ---
+        // Refatoramos para que o Carrinho resolva o pagamento internamente.
+        System.out.println("\nExecutando pagamento respeitando a Lei de Demeter...");
+    }
+
+    // Aula 3: Lei de Demeter e o "Diga, não pergunte"  
+    static void demeterEx2() {
+        System.out.println("\n=== LEI DE DEMETER COM CARRINHO (AULA 3) ===");
+
+        // Configuração: Cliente com cartão e carrinho com itens
+        Cartao cartaoDoJoao = new Cartao(1000.0);
+        Cliente joao = new Cliente("João");
+        joao.cadastrarCartao(cartaoDoJoao);
+        Carrinho carrinho = new Carrinho(joao);
+        
+        carrinho.adicionarItem(new Produto("Monitor UltraWide", 800.0));
+        carrinho.adicionarItem(new Produto("Suporte Articulado", 150.0));
+
+        // --- A VIOLAÇÃO (Train Wreck) ---
+        // Aqui o Principal sabe demais: ele conhece a estrutura do Carrinho, 
+        // do Cliente e do Cartão para processar o valor total.
+        System.out.println("Tentando pagar via violação de Demeter...");
+        
+        double valorParaPagar = carrinho.getTotal();
+        // Naufrágio de código: navegando em entranhas alheias
+        carrinho.getCliente().getCartao().processar(valorParaPagar);
+
+        /*
+         * EXPLICAÇÃO: Se o Cliente mudar o nome do método 'getCartao' ou passar 
+         * a usar múltiplos cartões, esta linha quebra. O Principal não deveria 
+         * 'fofocar' com o cartão do cliente.
+         */
+
+        // Vamos acabar de implementar até conseguirmos pagar?
+    }
+
+    static void boleto() {
+        // Implementação de um método de pagamento alternativo (Boleto)
     }
 }

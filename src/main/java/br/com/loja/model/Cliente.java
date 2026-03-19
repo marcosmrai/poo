@@ -1,5 +1,4 @@
 package br.com.loja.model;
-
 import br.com.loja.service.Cartao;
 
 /**
@@ -34,5 +33,8 @@ public class Cliente {
     public String toString() {
         return String.format("Cliente: %s, Cartão: %s", 
             nome, (cartao != null ? cartao.getNumero() : "Nenhum"));
+    }
+
+    public void pagar(double valor) {
     }
 }
