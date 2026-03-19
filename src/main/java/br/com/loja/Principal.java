@@ -19,6 +19,9 @@ public class Principal {
             System.out.println("\n=== Aula 2 ===");
             System.out.println("3. Forçando Erros em Máquinas de Estado");
             System.out.println("4. Invariante no Carrinho (Desafio)");
+            System.out.println("\n=== Aula 3 ===");
+            System.out.println("5. Lei de Demeter, Exemplo 1.");
+            System.out.println("6. Lei de Demeter, Exemplo 2.");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
             
@@ -37,6 +40,12 @@ public class Principal {
                 case 4:
                     Aula2.invarianteNoCarrinho();
                     break;
+                case 5:
+                    Aula3.demeterEx1();
+                    break;
+                case 6:
+                    Aula3.demeterEx2();
+                    break;
                 case 0:
                     System.out.println("Encerrando...");
                     break;
@@ -50,7 +59,7 @@ public class Principal {
 }
 
 class Aula1 {
-        // Aula 1: Entendendo Objetos, Referências e Membros Estáticos
+    // Aula 1: Entendendo Objetos, Referências e Membros Estáticos
     static void entendendoObjetos() {
         // INSTANCIAÇÃO: Objetos distintos na Heap
         Produto p1 = new Produto("Smartphone", 2000.0);
@@ -59,13 +68,16 @@ class Aula1 {
         // DEMONSTRAÇÃO DE REFERÊNCIA VS IDENTIDADE
         System.out.println("P1 e P2 são o mesmo objeto? " + (p1 == p2)); // false
 
+        System.out.println("Status inicial P1:\n" + p1);
+        System.out.println("Status inicial P2:\n" + p2);
+
+        Produto.atualizaTaxaImposto(0.20);
         // PASSAGEM POR REFERÊNCIA: p1 será alterado na Heap
-        aplicarDescontoEspecial(p1);
-        System.out.println("Novo status P1:\n" + p1.toString());
+        p1.aplicaDesconto(0.1);;
+        System.out.println("Novo status P1:\n" + p1);
 
         // MEMBRO ESTÁTICO: Afeta p1 e p2 ao mesmo tempo
-        Produto.atualizaTaxaImposto(0.20);
-        System.out.println("P2 após novo imposto:\n" + p2.toString());
+        System.out.println("P2 após novo imposto:\n" + p2);
     }
     
     // Aula 1: Primitivos vs. Referências e Ciclo de Vida (GC)
@@ -100,10 +112,6 @@ class Aula1 {
         // Recebemos uma cópia do endereço; alteramos o estado do objeto real na Heap 
         p.atualizaPreco(1200.0); 
     }
-
-    private static void aplicarDescontoEspecial(Produto p) {
-        p.atualizaPreco(p.precoFinal() * 0.9); // Altera o objeto original via referência
-    }
 }
 
 class Aula2 {
@@ -135,7 +143,9 @@ class Aula2 {
         joao.cadastrarCartao(new Cartao(100.0));
         
         // João tenta pagar 500. O sistema deveria impedir, mas a "máquina" está falha.
-        joao.getCartao().processar(500.0); 
+        if (!joao.getCartao().processar(500.0)){
+            System.out.println("Usuario sem Limite");
+        } 
     }
 
     // Aula 2: O Carrinho como Máquina de Estado e o Desafio da Abstração
@@ -147,7 +157,7 @@ class Aula2 {
         Produto p1 = new Produto("Teclado Mecânico", 300.0);
         Produto p2 = new Produto("Mouse Gamer", 150.0);
 
-        // 1. ADIÇÃO E MANUTENÇÃO DA INVARIANTE [cite: 765]
+        // 1. ADIÇÃO E MANUTENÇÃO DA INVARIANTE
         meuCarrinho.adicionarItem(p1);
         meuCarrinho.adicionarItem(p2);
         System.out.println("Total após adições: " + meuCarrinho.getTotal());
@@ -197,7 +207,7 @@ class Aula3 {
         System.out.println("Executando pagamento com violação de Demeter...");
         
         // Esta linha sabe demais sobre a estrutura interna do Carrinho e do Cliente [cite: 195, 207]
-        carrinho.getCliente().getCartao().processar(100.0);
+        //carrinho.checkout(100.0);
 
         /*
          * EXPLICAÇÃO PARA OS ALUNOS:
@@ -229,17 +239,7 @@ class Aula3 {
         // do Cliente e do Cartão para processar o valor total.
         System.out.println("Tentando pagar via violação de Demeter...");
         
-        double valorParaPagar = carrinho.getTotal();
-        // Naufrágio de código: navegando em entranhas alheias
-        carrinho.getCliente().getCartao().processar(valorParaPagar);
-
-        /*
-         * EXPLICAÇÃO: Se o Cliente mudar o nome do método 'getCartao' ou passar 
-         * a usar múltiplos cartões, esta linha quebra. O Principal não deveria 
-         * 'fofocar' com o cartão do cliente.
-         */
-
-        // Vamos acabar de implementar até conseguirmos pagar?
+        carrinho.checkout();
     }
 
     static void boleto() {

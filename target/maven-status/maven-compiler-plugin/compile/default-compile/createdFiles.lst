@@ -1,2 +1,11 @@
+br/com/loja/Aula3.class
+br/com/loja/service/Boleto.class
 br/com/loja/Principal.class
+br/com/loja/Aula1.class
+br/com/loja/model/Carrinho.class
+br/com/loja/service/Cartao.class
+br/com/loja/model/Cliente.class
 br/com/loja/model/Produto.class
+br/com/loja/model/Pedido.class
+br/com/loja/Aula2.class
+br/com/loja/model/Pagavel.class

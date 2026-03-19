@@ -17,12 +17,14 @@ public class Carrinho {
     }
 
     public void adicionarItem(Produto p) {
+        if (p == null) throw new IllegalArgumentException("Produto nulo.");
         this.itens.add(p);
         this.total += p.precoFinal(); // Mantendo a Invariante
     }
 
     public void removerItem(Produto p) {
         this.itens.remove(p);
+        this.total -= p.precoFinal();
     }
 
     public boolean confereTotal(ArrayList<Produto> itens) {
@@ -39,6 +41,16 @@ public class Carrinho {
      */
     public List<Produto> getItens() {
         return Collections.unmodifiableList(this.itens);
+    }
+
+    public boolean checkout(){
+        Pedido pedido;
+        if (cliente.pagar(this.getTotal())){
+            pedido = new Pedido(this.getItens(), 0.0, this.getTotal());
+            cliente.cadastraPedido(pedido);
+
+        }
+        return cliente.pagar(this.getTotal());
     }
 
     public double getTotal() { return this.total; }

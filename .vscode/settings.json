@@ -4,6 +4,10 @@
         {
             "command": "clean compile exec:java",
             "debug": false
+        },
+        {
+            "command": "mvn compile exec:java",
+            "debug": false
         }
     ]
 }
