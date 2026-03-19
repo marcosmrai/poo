@@ -1,8 +1,8 @@
 package br.com.loja.model;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 
 public class Carrinho {
     private double total;
@@ -43,14 +43,19 @@ public class Carrinho {
         return Collections.unmodifiableList(this.itens);
     }
 
-    public boolean checkout(){
-        Pedido pedido;
-        if (cliente.pagar(this.getTotal())){
-            pedido = new Pedido(this.getItens(), 0.0, this.getTotal());
-            cliente.cadastraPedido(pedido);
-
+    // Modifique apenas o método checkout na classe Carrinho
+    public void checkout(Pagavel metodoPagamento, String emailCliente) {
+        if (this.itens.isEmpty()) {
+            System.out.println("Carrinho vazio. Não é possível realizar checkout.");
+            return;
         }
-        return cliente.pagar(this.getTotal());
+        System.out.println("\nIniciando checkout...");
+        
+        // O Carrinho delega o pagamento e e-mail para o Pedido
+        Pedido pedido = new Pedido(this.getItens(), 0.0, this.getTotal(), metodoPagamento, emailCliente);
+        cliente.cadastraPedido(pedido);
+        
+        System.out.println("Pedido criado e atrelado ao cliente. Pendente de verificação de pagamento.");
     }
 
     public double getTotal() { return this.total; }

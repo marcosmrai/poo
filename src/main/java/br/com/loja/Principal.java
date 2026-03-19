@@ -1,10 +1,11 @@
 package br.com.loja;
 
+import java.util.ArrayList;
+
+import br.com.loja.model.Carrinho;
 import br.com.loja.model.Cliente;
 import br.com.loja.model.Produto;
-import br.com.loja.model.Carrinho;
 import br.com.loja.service.Cartao;
-import java.util.ArrayList;
 
 public class Principal {
     public static void main(String[] args) {
@@ -239,10 +240,6 @@ class Aula3 {
         // do Cliente e do Cartão para processar o valor total.
         System.out.println("Tentando pagar via violação de Demeter...");
         
-        carrinho.checkout();
-    }
-
-    static void boleto() {
-        // Implementação de um método de pagamento alternativo (Boleto)
+        carrinho.checkout(cartaoDoJoao, null);
     }
 }
