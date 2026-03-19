@@ -4,10 +4,11 @@ package br.com.loja.model;
  * Representa um item comercializável.
  * Design focado em proteger a integridade dos dados (Invariantes).
  */
-public class Produto {
+public class Produto{
     // ESTADO: Atributos privados para "Information Hiding"
     private String nome;
     private double preco;
+    private double desconto;
 
     // MEMBRO ESTÁTICO: Compartilhado por todas as instâncias (Economia de memória)
     private static double taxaImposto = 0.10; 
@@ -19,6 +20,7 @@ public class Produto {
         }
         this.nome = nome; // 'this' resolve conflito de escopo
         this.atualizaPreco(preco); // Reuso da lógica de validação
+        this.desconto = 0.0;
     }
 
     // COMPORTAMENTO: Interface Pública (O Contrato)
@@ -30,12 +32,20 @@ public class Produto {
     }
 
     public double precoFinal() {
-        return this.preco * (1 + taxaImposto); // Interação entre estado local e estático
+        return this.preco *(1-this.desconto)* (1 + taxaImposto); // Interação entre estado local e estático
     }
 
     // Método Estático: Altera a regra para todos os objetos simultaneamente
     public static void atualizaTaxaImposto(double novaTaxa) {
         taxaImposto = novaTaxa;
+    }
+
+    public void aplicaDesconto(double desconto){
+        if (desconto >= 1.0 || desconto < 0.0){
+            throw new IllegalArgumentException("Desconto deve ser positivo e menor que 1."); // Fail-Fast
+        }
+        this.desconto = desconto;
+
     }
 
     public String toString() {

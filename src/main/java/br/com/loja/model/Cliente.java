@@ -1,6 +1,9 @@
 package br.com.loja.model;
 import br.com.loja.service.Cartao;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  * Representa o usuário do sistema.
  * Demonstra a associação entre classes no modelo de domínio.
@@ -8,6 +11,7 @@ import br.com.loja.service.Cartao;
 public class Cliente {
     private String nome;
     private Cartao cartao; // Associação: o cliente "tem" um cartão
+    private ArrayList<Pedido> listaDePedidos;
 
     public Cliente(String nome) {
         // Princípio Fail-Fast: garante que o objeto não nasça sem nome [cite: 775, 903]
@@ -15,6 +19,7 @@ public class Cliente {
             throw new IllegalArgumentException("Nome do cliente é obrigatório.");
         }
         this.nome = nome;
+        this.listaDePedidos = new ArrayList<>();
     }
 
     // Método para vincular um cartão ao cliente
@@ -35,6 +40,12 @@ public class Cliente {
             nome, (cartao != null ? cartao.getNumero() : "Nenhum"));
     }
 
-    public void pagar(double valor) {
+    public boolean pagar(double valor) {
+        return this.cartao.processar(valor);
+    }
+
+    public void cadastraPedido(Pedido pedido){
+        if (pedido == null) throw new IllegalArgumentException("Pedido nulo.");
+        this.listaDePedidos.add(pedido);
     }
 }
